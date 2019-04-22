@@ -10,49 +10,69 @@ namespace GuessMyNumberGame
     {
         Random rnd = new Random();
 
-        public int ChopThousand(int guessThousand)
+        public void hundredMain()
         {
-            int rndNumber = rnd.Next(1, 1000);
-            int count = 0;
-            Console.WriteLine(guessThousand);
-            Console.ReadLine();
+            Console.WriteLine("Choose a number between 1 and 100 for the computer to find.");
+            int number = int.Parse(Console.ReadLine());
 
-            int[] newArray = new int[1000];
+            int[] newArray = new int[100];
             for (int i = 0; i < newArray.Length; i++)
             {
                 newArray[i] = i + 1;
                 Console.WriteLine(newArray[i]);
             }
             Console.ReadLine();
+            int guess = newArray.Length / 2;
+            int count = 0;
+            int high = 100;
+            int low = 1;
 
-            recursiveThousand([]newArray, int guessThousand, int rndNumber);
-            return count;
+
+        recursiveHundred(newArray, guess, number, count, high, low);
         }
 
-           public int recursiveThousand(int []newArray, int gessThousand, int rndNumber)
+    public int recursiveHundred(int[] newArray, int guess, int number, int count, int high, int low)
+    {
+            count += 1;
+            if (guess == number)
+        {
+            Console.WriteLine($"You chose the correct number! it took {count -1} tries");
+        }
+            else if (guess < number && count < 100)
             {
-                if (guessThousand == rndNumber)
+                Console.WriteLine($"You guessed {guess}. Too low, try a higher number.");
+                Console.WriteLine($"Number ={number}");
+                Console.ReadLine();
+                low = guess;
+                if (high < guess + 3)
                 {
-                    Console.WriteLine("You chose the correct number!");
+                    guess = guess + 1;
+                    return count += recursiveHundred(newArray, guess, number, count, high, low);
                 }
-                else if (guessThousand < newArray[rndNumber - 1])
+                else
                 {
-                    Console.WriteLine($"You guessed {guessThousand}. Too low, select a higher number.");
+                    guess = (high + guess) / 2;
                 }
-                else if (guessThousand > newArray[rndNumber - 1])
-                {
-                    Console.WriteLine($"You guessed {guessThousand}. Too high, select a lower number.");
-                }
-                return guessThousand;
+                return count += recursiveHundred(newArray, guess, number, count, high, low);
             }
-
-
-
-        //public int bisectThousand(int guess, int number, int count, int length)
-        //{
-        //    ount += bisectThousand(guess, number, count, length);
-        //    }
-        //    return number;
-
+            else if (guess > number && count < 100)
+            {
+                Console.WriteLine($"You guessed {guess}. Too high, try a smaller number");
+                Console.WriteLine($"Number ={number}");
+                Console.ReadLine();
+                high = guess;
+                if (low > guess - 3)
+                {
+                    guess = guess - 1;
+                    return count += recursiveHundred(newArray, guess, number, count, high, low);
+                }
+                else
+                {
+                    guess = guess / 2;
+                }
+                return count += recursiveHundred(newArray, guess, number, count, high, low);
+            }
+            return number;
+        }
     }
 }

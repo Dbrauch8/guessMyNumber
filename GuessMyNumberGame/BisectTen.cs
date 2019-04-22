@@ -8,11 +8,25 @@ namespace GuessMyNumberGame
 {
     class BisectTen
     {
+         public void bisectMain()
+        {
+            int[] list = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            int length = list.Max();
 
-        public int bisectChopTen(int guess, int number, int count, int length, int high, int low)
+            int guess = list.Max() / 2;
+
+            Console.WriteLine("Select a number between 1 and 10 for the computer to search for:");
+            int number = int.Parse(Console.ReadLine());
+            int count = 0;
+            int high = 10;
+            int low = 1;
+
+            bisectChopTen(list, guess, number, count, length, high, low);
+        }
+        public int bisectChopTen(int []list, int guess, int number, int count, int length, int high, int low)
         {
             count += 1;
-            if (guess == number)
+            if (list[guess] == number)
             {
                 Console.WriteLine("You chose correctly.");
                 Console.ReadLine();
@@ -27,12 +41,13 @@ namespace GuessMyNumberGame
                 if (high < guess + 3)
                 {
                     guess = guess + 1;
+                    return count += bisectChopTen(list, guess, number, count, length, high, low);
                 }
                 else
                 {
                 guess = (high + guess) / 2;
                 }
-                return count +=bisectChopTen(guess, number, count, length, high, low);
+                return count +=bisectChopTen(list, guess, number, count, length, high, low);
             }
 
             else if (guess > number && count < 10)
@@ -44,12 +59,13 @@ namespace GuessMyNumberGame
                 if (low > guess - 3)
                 {
                     guess = guess - 1;
+                    return count += bisectChopTen(list, guess, number, count, length, high, low);
                 }
                 else
                 {
                 guess = guess / 2;
                 }
-                return count += bisectChopTen(guess, number, count, length, high, low);
+                return count += bisectChopTen(list, guess, number, count, length, high, low);
             }
             return number;
         }
